@@ -1,6 +1,8 @@
 #include <stdio.h>
-#include <seg7.h>
+#include "seg7.h"
 #include <math.h>
+#include <stdlib.h>
+#include <time.h>
 /*
 * Final Lab
 * April Clark & Max Hartel
@@ -14,15 +16,16 @@
 #define gpioc_idr (*((volatile unsigned int*)0x40020810))
 #define gpioc_odr (*((volatile unsigned int*)0x40020814))
 
-int main(){
+void delay_ms(int milliseconds);
 
+int main(){
+	time_t timeValue;
 	char hexArr[16] = {0x40,0x79,0x24,0x30,0x19,0x12,0x2,0x78,0x0,0x18,0x8,0x3,0x46,0x21,0x6,0xe}; //array storing hex values 0-15
 	unsigned int switches, display_number, totalSeconds, minutes, seconds, totalMiliseconds;
 	gpioc_moder = 0x00000000; // Port C mode register - make all pins inputs
 	seg7_init(); // Initialize the 7-segment display
-	int random = rand(time()) % 256;
-	int random2 = rand(time(time)) % 256;
-
+	int random = (rand() + time(&timeValue)) % 256;
+	int random2 = (rand() + time(&timeValue)) % 256;
 
 	while(1){
 
@@ -100,8 +103,9 @@ int main(){
 				seg7_put(6, hexArr[minutesOnes]); //displays the ones digit for tens on seg7 #6
 				seg7_put(7, hexArr[minutesTens]); //displays the tens digit for seconds on seg7 #7
 
-				random = rand(time()) % 256;
-				random2 = rand(time(time)) % 256;
+				int random = (rand() + time(&timeValue)) % 256;
+				int random2 = (rand() + time(&timeValue)) % 256;
+
 			}
 
 
