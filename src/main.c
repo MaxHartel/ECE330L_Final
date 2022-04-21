@@ -115,5 +115,5 @@ int main(){
 //function for causing delay (in milliseconds)
 void delay_ms(int milliseconds){
 	int i;
-	for(i = 0; i < 2000*milliseconds; i++){}
+	for(i = 0; i < 2000 * milliseconds; i++){}
 }
